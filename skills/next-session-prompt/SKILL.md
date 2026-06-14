@@ -12,6 +12,7 @@ Capture the current working session into a single markdown file that a fresh ses
 
 - The user is running low on context (heading toward auto-compact) and has unfinished follow-ups.
 - The user explicitly asks to hand off, save, or write a next-session prompt.
+- The user invokes the skill by name, e.g. `/next-session-prompt`, `$next-session-prompt`, or "use next-session-prompt".
 
 ## Procedure
 
@@ -71,3 +72,5 @@ Write the file in second person, addressed to the next session:
 - Write exactly ONE file per invocation.
 - Do not commit the handoff file; `prompts/` is gitignored on purpose.
 - Keep it tight and scannable. The Outstanding follow-ups list is the core.
+- If your agent runtime cannot read the full prior conversation, say that in the handoff and capture only observed repo state plus context the user supplied in the current turn. Do not invent missing decisions or status.
+- This file is intentionally plain Markdown with minimal YAML frontmatter so Claude Code, Codex, Gemini-style skill loaders, and agents that treat it as a prompt can all use the same source.
