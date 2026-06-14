@@ -24,14 +24,30 @@ To continue, open a new session and paste the file, or say
 
 ## Install
 
+### Quick install (one line, no clone)
+
 ```bash
-git clone https://github.com/<you>/next-session-prompt ~/Development/next-session-prompt
+curl -fsSL https://raw.githubusercontent.com/kyle-chalmers/next-session-prompt/main/install.sh | bash
+```
+
+This drops `SKILL.md` into `~/.claude/skills/next-session-prompt/`. Start a new
+session and invoke it with `/next-session-prompt`, or just say "hand off this
+session". Set `CLAUDE_SKILLS_DIR` if your skills live somewhere other than
+`~/.claude/skills`.
+
+Or just tell Claude Code: "install the next-session-prompt skill globally from
+github.com/kyle-chalmers/next-session-prompt" and let it run the one-liner.
+
+### Contributor install (symlinked from a clone)
+
+```bash
+git clone https://github.com/kyle-chalmers/next-session-prompt ~/Development/next-session-prompt
 cd ~/Development/next-session-prompt
 ./scripts/setup.sh
 ```
 
-`setup.sh` symlinks the skill into `~/.claude/skills/`. Start a new session and
-invoke it with `/next-session-prompt`, or just say "hand off this session".
+`setup.sh` symlinks the skill into `~/.claude/skills/`, so edits to the cloned
+`SKILL.md` take effect immediately.
 
 ## Usage
 
