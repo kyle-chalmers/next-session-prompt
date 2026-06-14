@@ -1,5 +1,7 @@
 # next-session-prompt Implementation Plan
 
+> Current implementation note: the skill started as Claude Code-only, but now supports Claude Code, Codex, and Gemini/Antigravity-style skill directories. `install.sh` copies the skill for global installs, and `scripts/setup.sh` symlinks it for contributor installs.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build a public GitHub repo containing a manually-invoked Claude Code skill that captures the current session into one self-describing markdown resume prompt under `prompts/`.

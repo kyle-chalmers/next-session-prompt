@@ -1,11 +1,11 @@
 # Design: `next-session-prompt`
 
 **Date:** 2026-06-14
-**Status:** Approved (brainstorming complete, pending spec review)
+**Status:** Approved; implementation now supports Claude Code, Codex, and Gemini-style skill directories.
 
 ## Objective
 
-A manually-invoked Claude Code skill that captures the state of the current working session into a single self-describing markdown "resume prompt." When a session is running low on context (heading toward auto-compact) and has unfinished follow-ups, the user runs the skill before the context is lost. The output file orients a fresh session so work continues without the original conversation.
+A manually-invoked coding-agent skill that captures the state of the current working session into a single self-describing markdown "resume prompt." When a session is running low on context (heading toward auto-compact) and has unfinished follow-ups, the user runs the skill before the context is lost. The output file orients a fresh session so work continues without the original conversation.
 
 The repo doubles as the subject of a YouTube video for Kyle Chalmers Data Plus AI, so it is public-facing from day one.
 
@@ -18,7 +18,6 @@ Long working sessions approach the context limit and auto-compact. Compaction su
 - No `PreCompact` hook auto-backstop. Manual invocation is the model.
 - No separate "resume mode." The handoff file *is* the resume prompt.
 - No cross-session index or history of past handoffs.
-- No multi-CLI install in v1 (Claude Code only; Codex/Gemini symlinks are a trivial later add).
 
 ## Why manual, not auto-detect
 
@@ -32,6 +31,8 @@ Claude cannot reliably read its own context-utilization percentage as an actiona
 next-session-prompt/
 ├── README.md                         # public: the problem + install + usage
 ├── CLAUDE.md                         # public-facing notice + internalized skill guidance
+├── AGENTS.md                         # Codex/OpenCode-style project guidance
+├── GEMINI.md                         # Gemini-style project guidance pointer
 ├── .gitignore                        # ignores .internal/ and prompts/
 ├── .internal/
 │   └── OWNER_CONFIG.md               # recording notes / owner-specific values (gitignored)
@@ -40,7 +41,7 @@ next-session-prompt/
 │   └── next-session-prompt/
 │       └── SKILL.md                  # the skill
 └── scripts/
-    └── setup.sh                      # idempotent symlink of skills/* into ~/.claude/skills/
+    └── setup.sh                      # idempotent symlink of skills/* into agent skill dirs
 ```
 
 The public-facing repo hygiene (`.internal/OWNER_CONFIG.md` pattern, `.internal/` gitignored, public notice in `CLAUDE.md`) is applied via the `public-repo-setup` skill during implementation.
@@ -49,6 +50,7 @@ The public-facing repo hygiene (`.internal/OWNER_CONFIG.md` pattern, `.internal/
 
 ### Invocation
 - Slash: `/next-session-prompt`
+- Codex-style skill mention: `$next-session-prompt`
 - Natural triggers: "hand off this session", "write a next session prompt", "save this for next time", "I'm running low on context".
 
 ### Behavior
@@ -78,12 +80,13 @@ The file is written *to* the next session in second person so a fresh agent is i
 
 ## Install
 
-`scripts/setup.sh` symlinks `skills/next-session-prompt/` into `~/.claude/skills/`. Idempotent (safe to re-run), matching the pattern in `kc-content-workspace/scripts/setup.sh`.
+`install.sh` copies `skills/next-session-prompt/SKILL.md` into default Claude Code, Codex, and Gemini/Antigravity-style skill directories. `scripts/setup.sh` symlinks `skills/next-session-prompt/` into the same default directories for contributor installs. Both support custom target directories.
 
 ## Success criteria
 
 - Running `/next-session-prompt` in any git repo writes one correctly-named markdown file to `prompts/` and guarantees `prompts/` is gitignored there.
 - The file contains all eight sections, populated from real session content (no placeholders).
 - A fresh session given only the file can identify the objective, the outstanding follow-ups, and the recommended first action without the original conversation.
-- `scripts/setup.sh` symlinks the skill into `~/.claude/skills/` and is safe to re-run.
+- `install.sh` copies the skill into supported agent skill dirs and is safe around symlinked dev installs.
+- `scripts/setup.sh` symlinks the skill into supported agent skill dirs and is safe to re-run.
 - Repo is public with no secrets or owner-specific values outside `.internal/`.
