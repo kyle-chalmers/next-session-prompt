@@ -1,0 +1,8 @@
+# Owner-only, never published
+.internal/
+
+# Session handoff artifacts written by the skill (per-repo, ephemeral)
+prompts/
+
+# macOS
+.DS_Store
