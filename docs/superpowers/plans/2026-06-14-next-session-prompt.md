@@ -381,10 +381,12 @@ git commit -m "docs: add public README and project CLAUDE.md"
 
 Dispatch the `public-repo-auditor` agent (or, if unavailable, run the grep below) against `~/Development/next-session-prompt` to confirm no secrets, PII, or owner-specific values exist outside `.internal/`.
 
-Fallback scan:
+Fallback scan (replace the angle-bracket placeholders with your real owner
+email, internal domain, and home path before running, so this published doc
+never bakes those literals into a public repo):
 ```bash
 cd ~/Development/next-session-prompt
-git ls-files | xargs grep -nE 'kylechalmers@|kclabs\.ai|/Users/kylechalmers|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|BEGIN [A-Z ]*PRIVATE KEY' || echo "CLEAN"
+git ls-files | xargs grep -nE '<owner-email>|<internal-domain>|<home-path>|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|BEGIN [A-Z ]*PRIVATE KEY' || echo "CLEAN"
 ```
 Expected: `CLEAN`. (Tracked files must not contain owner email, internal domains, home paths, or key material. `.internal/` is untracked, so it will not appear.)
 
