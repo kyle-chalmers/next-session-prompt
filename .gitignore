@@ -4,5 +4,8 @@
 # Session handoff artifacts written by the skill (per-repo, ephemeral)
 prompts/
 
+# Local AI review artifacts
+.ai-friend-review/
+
 # macOS
 .DS_Store
