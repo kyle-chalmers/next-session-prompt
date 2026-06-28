@@ -18,7 +18,7 @@ Capture the current working session into a single markdown file that a fresh ses
 
 1. **Locate the target repo.** Run `git rev-parse --show-toplevel`. If it succeeds, that path is the target repo root and the file goes in `<root>/prompts/`. If it fails (not a git repo), use the current working directory and tell the user the file is being written to `./prompts/` outside any git repo.
 
-2. **Guarantee `prompts/` is gitignored** (only when inside a git repo). Check whether `prompts/` is already ignored with `git check-ignore prompts >/dev/null 2>&1`. If it is NOT ignored, append a `prompts/` line to the repo's root `.gitignore` (create the file if absent). Never commit anything in this step; only edit `.gitignore` if needed and leave it for the user to decide.
+2. **Guarantee `prompts/` is gitignored** (only when inside a git repo). Check whether `prompts/` is already ignored with `git check-ignore prompts/ >/dev/null 2>&1`. Use the trailing slash so directory-only ignore rules match even before the directory exists. If it is NOT ignored, append a `prompts/` line to the repo's root `.gitignore` (create the file if absent), ensuring the appended line is separated from any existing final line by a newline. Re-run `git check-ignore prompts/ >/dev/null 2>&1` after editing and report any failure instead of continuing silently. Also run `git ls-files prompts/`; if it returns tracked files, tell the user that `.gitignore` will not untrack existing files and do not imply the handoff is fully protected from commits. Never commit anything in this step; only edit `.gitignore` if needed and leave it for the user to decide.
 
 3. **Derive the filename.**
    - Date: today's date as `YYYY-MM-DD`.
@@ -28,7 +28,7 @@ Capture the current working session into a single markdown file that a fresh ses
 
 4. **Synthesize the handoff** from the conversation. Read back over the session and fill every section of the template below with real content. No placeholders. If a section is genuinely empty (e.g. nothing running), write "None" rather than leaving it blank.
 
-5. **Write the file** and report its path to the user in one line.
+5. **Write the file.** Create the target directory first (`mkdir -p <root>/prompts` inside a repo, or `mkdir -p ./prompts` outside one), then write the handoff file and report its path to the user in one line.
 
 ## Handoff template
 
