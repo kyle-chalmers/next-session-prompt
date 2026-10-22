@@ -1,5 +1,11 @@
 # next-session-prompt
 
+> **Moved:** The maintained skill is now in [kyle-chalmers-skills](https://github.com/kyle-chalmers/kyle-chalmers-skills/tree/main/skills/next-session-prompt). This repository preserves older tutorial links and installation files. For future updates, install from the new collection.
+
+```bash
+npx skills add kyle-chalmers/kyle-chalmers-skills --skill next-session-prompt
+```
+
 A portable coding-agent skill that saves a working session as a resume prompt so
 you can continue in a fresh session without losing the thread.
 
